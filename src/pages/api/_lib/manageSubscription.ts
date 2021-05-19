@@ -3,7 +3,11 @@ import { fauna } from "../../../services/fauna";
 import { stripe } from "../../../services/stripe";
 
 //this saves the subscription at faunadb
-export async function saveSubscription(subscriptionId: string, customerId: string) {
+export async function saveSubscription(
+   subscriptionId: string, 
+   customerId: string, 
+   createAction = false
+) {
    // find the user at fauna with the ID (customerID = stripe_customer_id)
    // save subscription data at faunadb 
    // console.log(subscriptionId, customerId);
@@ -11,11 +15,11 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
      query.Select(
         "ref",
         query.Get(
-         query.Match(
-            query.Index('user_by_stripe_customer_id'),
-            customerId
+            query.Match(
+               query.Index('user_by_stripe_customer_id'),
+               customerId
+            )
          )
-      )
      )
    );
 
@@ -28,10 +32,28 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
       price_id: subscription.items.data[0].price.id
    }
 
-   await fauna.query(
-      query.Create(
-         query.Collection('subscriptions'),
-         { data: subscriptionData }
+   if(createAction){
+      await fauna.query(
+         query.Create(
+            query.Collection('subscriptions'),
+            { data: subscriptionData }
+         )
       )
-   )
+   }else{
+      await fauna.query(
+         query.Replace(
+            query.Select(
+               "ref",
+               query.Get(
+                  query.Match(
+                     query.Index('subscription_by_id'),
+                     subscriptionId
+                  )
+               )
+            ),
+            { data: subscriptionData }
+         )
+      )
+
+   }
 }

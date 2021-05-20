@@ -30,6 +30,7 @@ export default function Post({post}:PostProps){
                   {post.content}
                </div> */}
                <div
+                  key={post.slug}
                   className={styles.postContent}
                   dangerouslySetInnerHTML={{__html: post.content}} 
                />
@@ -43,6 +44,16 @@ export const getServerSideProps: GetServerSideProps = async ({req, params}) => {
    const session = await getSession({req});
 
    const {slug} = params;
+
+   if(!session.activeSubscription) {
+      return {
+         redirect: {
+            destination: '/',
+            permanent: false,
+         }
+      }
+   }
+
 
    const prismic = getPrismicClient(req);
 

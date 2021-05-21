@@ -1,34 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ![Logo](https://github.com/arianeborges/ignews/blob/master/public/images/logo.svg)
 
-## Getting Started
+### 💻 DEMO
 
-First, run the development server:
+![ignews demo](https://github.com/arianeborges/ignews/blob/master/Animation.gif)
 
-```bash
-npm run dev
-# or
-yarn dev
+### 📜 About
+
+The application was developed using the NextJS framework applying concepts such as external API consumption, Root API, Server Side Rendering (SSR), Static Site Generation (SSG), STRIPE for subscription payments, NextAuth for authentication with Github, FaunaDB to store the information of the user in a database and Prismic CMS for adding and managing the content of the posts.
+
+### 🛠 Technologies
+
+- React JS
+- Next JS
+- [Next-Auth](https://next-auth.js.org/)
+- Typescript
+- SASS
+- [FaunaDB](https://fauna.com/)
+- [Stripe](https://stripe.com/)
+- [Prismic CMS](https://prismic.io/docs)
+
+### 📋 Funcionalities
+
+- [x] Login via Github
+- [x] Subscription via Stripe
+- [x] See all posts preview without login and subscription
+- [x] See all posts when logged and subscribed
+
+### 📕 Installation
+
+#### Requirement
+
+Create account and configure external services:
+
+- Stripe
+- FaunaDB
+- Prismic CMS
+
+Service settings are located in the [servicesConfig.md](https://github.com/arianeborges/ignews/blob/master/serviceConfig.md) file at the root of the project.
+
 ```
+# Clone this repository
+$ git clone https://github.com/arianeborges/ignews.git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Open the folder ignews
+$ cd ignews
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+# Install the dependencies
+$ npm install 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+# At the root of the project, create a copy of the .env.local.example file
+# Change the name of the copy to .env.local
+# Fill in the environment variables according to the instructions
+$ cp .env.local.example .env.local
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Run stripe listen to listen to webhook events
+$ stripe listen --forward-to localhost:3000/api/webhooks 
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Execute the application
+$ npm dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
